@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from "react-native";
 import Colors from "@/constants/Colors";
 import { useState } from "react";
 import { Link } from "expo-router";
@@ -23,7 +23,7 @@ const Page = () => {
       <Text style={styles.descText}>
         Click on the button below to get started
       </Text>
-      <Link href={"/signin"} replace asChild>
+      <Link href={"/signin?account=create"} replace asChild>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Create Acccount</Text>
         </TouchableOpacity>

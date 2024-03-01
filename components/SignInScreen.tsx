@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   TextInput,
@@ -7,15 +7,27 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Image,
+  Linking
 } from "react-native";
-import { useSignIn } from "@clerk/clerk-expo";
+import { useAuth, useSignIn } from "@clerk/clerk-expo";
 import Colors from "@/constants/Colors";
+import { useRouter } from "expo-router";
 
 export default function SignInScreen() {
   const { signIn, setActive, isLoaded } = useSignIn();
 
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const {sessionId} = useAuth()
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if(sessionId != null) {
+      console.log(sessionId)
+    }
+  })
 
   const onSignInPress = async () => {
     if (!isLoaded) {
@@ -30,6 +42,7 @@ export default function SignInScreen() {
       // This is an important step,
       // This indicates the user is signed in
       await setActive({ session: completeSignIn.createdSessionId });
+      console.log('logged in')
     } catch (err: any) {
       console.log(err);
     }
@@ -48,7 +61,8 @@ export default function SignInScreen() {
               marginBottom: 40,
             }}
           />
-          <Text style={styles.inputHeading}>Email Address</Text>
+          <Text style={styles.heading}>Sign in</Text>
+          <Text style={styles.inputHeading}>Email address</Text>
           <TextInput
             autoCapitalize="none"
             value={emailAddress}
@@ -72,6 +86,10 @@ export default function SignInScreen() {
         <TouchableOpacity onPress={onSignInPress} style={styles.button}>
           <Text style={styles.buttonText}>Sign in</Text>
         </TouchableOpacity>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between',marginTop: 40}}>
+        <Text style={{color: '#9A9A9A'}}>Don't have an account?</Text>
+        <Text style={styles.inputHeading} onPress={() => router.push('signin?account=create')}>Create account</Text>
+      </View>
       </View>
     </KeyboardAvoidingView>
   );

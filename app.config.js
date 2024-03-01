@@ -4,4 +4,5 @@ module.exports = {
   extra: {
     clerkPublishableKey: process.env.CLERK_PUBLISHABLE_KEY,
   },
+  plugins: ["expo-router"],
 };

@@ -7,9 +7,11 @@ import {
   StyleSheet,
   Image,
   KeyboardAvoidingView,
+  Linking,
 } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import Colors from "@/constants/Colors";
+import { router } from "expo-router";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -75,8 +77,8 @@ export default function SignUpScreen() {
         {!pendingVerification && (
           <View>
             <View>
-              <Text style={styles.heading}>Sign Up</Text>
-              <Text style={styles.inputHeading}>Email Address</Text>
+              <Text style={styles.heading}>Sign up</Text>
+              <Text style={styles.inputHeading}>Email address</Text>
               <TextInput
                 autoCapitalize="none"
                 value={emailAddress}
@@ -104,13 +106,18 @@ export default function SignUpScreen() {
                 marginBottom: 20,
               }}
             >
-              <Text style={styles.inputHeading}>Enter Verification Code</Text>
-              CheckboxInooyut
+              <Text style={{color: '#9A9A9A'}}>By clicking "create account" you acknowledge that you have read and understood the {' '}
+              <Text style={{color: '#A3303B'}} onPress={() => Linking.openURL('https://critical48.com/terms-of-service')}>Terms & Condition</Text> {' '} of this application.
+              </Text>
             </View>
 
             <TouchableOpacity onPress={onSignUpPress} style={styles.button}>
-              <Text style={styles.buttonText}>Sign up</Text>
+              <Text style={styles.buttonText}>Create account</Text>
             </TouchableOpacity>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between',marginTop: 40}}>
+        <Text style={{color: '#9A9A9A'}}>Already have an account?</Text>
+        <Text style={styles.inputHeading} onPress={() => router.push('/signin?account=login')}>Sign in</Text>
+      </View>
           </View>
         )}
         {pendingVerification && (
