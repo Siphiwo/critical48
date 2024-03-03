@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import Colors from "@/constants/Colors";
+import { router } from "expo-router";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -129,6 +130,7 @@ export default function SignUpScreen() {
             </View>
 
             <TouchableOpacity onPress={onSignUpPress} style={styles.button}>
+              <Text style={styles.buttonText}>Create account</Text>
               <Text style={styles.buttonText}>Create account</Text>
             </TouchableOpacity>
             <View

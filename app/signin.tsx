@@ -20,6 +20,7 @@ const Signin = () => {
       {type == "create" ? <SignUpScreen /> : <SignInScreen />}
       {/* </SignedOut> */}
     </SafeAreaView>
+    // <Text>You are Signed in</Text>
   );
 };
 const styles = StyleSheet.create({
