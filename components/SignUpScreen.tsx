@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Image,
   KeyboardAvoidingView,
+  Platform,
+  Linking,
 } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import Colors from "@/constants/Colors";
@@ -60,7 +62,10 @@ export default function SignUpScreen() {
     }
   };
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <View style={styles.container}>
         <Image
           source={require("@/assets/images/critical48-logo.png")}
@@ -75,8 +80,8 @@ export default function SignUpScreen() {
         {!pendingVerification && (
           <View>
             <View>
-              <Text style={styles.heading}>Sign Up</Text>
-              <Text style={styles.inputHeading}>Email Address</Text>
+              <Text style={styles.heading}>Create account</Text>
+              <Text style={styles.inputHeading}>Email address</Text>
               <TextInput
                 autoCapitalize="none"
                 value={emailAddress}
@@ -104,13 +109,45 @@ export default function SignUpScreen() {
                 marginBottom: 20,
               }}
             >
-              <Text style={styles.inputHeading}>Enter Verification Code</Text>
-              CheckboxInooyut
+              <Text style={{ color: "#9A9A9A" }}>
+                By creating an account you agree to the{" "}
+                <Text
+                  style={{ color: "#A3303B" }}
+                  onPress={() => console.log("terms link pressed")}
+                >
+                  Terms of Services
+                </Text>{" "}
+                and{" "}
+                <Text
+                  style={{ color: "#A3303B" }}
+                  onPress={() => console.log("privacy link pressed")}
+                >
+                  Privacy Policy
+                </Text>
+                .
+              </Text>
             </View>
 
             <TouchableOpacity onPress={onSignUpPress} style={styles.button}>
-              <Text style={styles.buttonText}>Sign up</Text>
+              <Text style={styles.buttonText}>Create account</Text>
             </TouchableOpacity>
+            <View
+              style={{
+                marginTop: 30,
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={{ color: "#9A9A9A", fontSize: 14 }}>
+                Already have an account?
+              </Text>
+              <Text
+                style={{ color: "#A3303B", fontWeight: "600" }}
+                onPress={() => Linking.openURL("/signin?type=login")}
+              >
+                Sign in
+              </Text>
+            </View>
           </View>
         )}
         {pendingVerification && (

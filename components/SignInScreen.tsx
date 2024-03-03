@@ -7,6 +7,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Image,
+  Linking,
 } from "react-native";
 import { useSignIn } from "@clerk/clerk-expo";
 import Colors from "@/constants/Colors";
@@ -72,6 +73,23 @@ export default function SignInScreen() {
         <TouchableOpacity onPress={onSignInPress} style={styles.button}>
           <Text style={styles.buttonText}>Sign in</Text>
         </TouchableOpacity>
+        <View
+          style={{
+            marginTop: 30,
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={{ color: "#9A9A9A", fontSize: 14 }}>
+            Do not have an account?
+          </Text>
+          <Text
+            style={{ color: "#A3303B", fontWeight: "600" }}
+            onPress={() => Linking.openURL("/signin?type=create")}
+          >
+            Create account
+          </Text>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );

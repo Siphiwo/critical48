@@ -6,7 +6,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import Constants from "expo-constants";
 
-const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+const CLERK_PUBLISHABLE_KEY =
+  "pk_test_aGlwLWFuZW1vbmUtNTEuY2xlcmsuYWNjb3VudHMuZGV2JA";
+// const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
 export {
   // Catch any errors thrown by the Layout component.

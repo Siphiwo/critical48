@@ -23,7 +23,7 @@ const Page = () => {
       <Text style={styles.descText}>
         Click on the button below to get started
       </Text>
-      <Link href={"/signin"} replace asChild>
+      <Link href={"/signin?type=create"} replace asChild>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Create Acccount</Text>
         </TouchableOpacity>
