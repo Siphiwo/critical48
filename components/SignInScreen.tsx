@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import {
   Text,
   TextInput,
@@ -7,36 +7,25 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Image,
-<<<<<<< HEAD
   Linking,
-=======
-  Linking
->>>>>>> 0f1f0a9fff9c40d4445b160553881f0d519d4fce
+  ActivityIndicator,
 } from "react-native";
-import { useAuth, useSignIn } from "@clerk/clerk-expo";
+import { useSignIn } from "@clerk/clerk-expo";
 import Colors from "@/constants/Colors";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 
 export default function SignInScreen() {
   const { signIn, setActive, isLoaded } = useSignIn();
 
-  const [emailAddress, setEmailAddress] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
-  const {sessionId} = useAuth()
-
-  const router = useRouter()
-
-  useEffect(() => {
-    if(sessionId != null) {
-      console.log(sessionId)
-    }
-  })
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSignInPress = async () => {
     if (!isLoaded) {
       return;
     }
+    setLoading(true);
 
     try {
       const completeSignIn = await signIn.create({
@@ -46,75 +35,75 @@ export default function SignInScreen() {
       // This is an important step,
       // This indicates the user is signed in
       await setActive({ session: completeSignIn.createdSessionId });
-      console.log('logged in')
+      setLoading(false);
     } catch (err: any) {
       console.log(err);
+      setLoading(false);
     }
   };
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <View>
-          <Image
-            source={require("@/assets/images/critical48-logo.png")}
+      {!loading ? (
+        <View style={styles.container}>
+          <View>
+            <Image
+              source={require("@/assets/images/critical48-logo.png")}
+              style={{
+                width: 100,
+                height: 100,
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginBottom: 40,
+              }}
+            />
+            <Text style={styles.inputHeading}>Email Address</Text>
+            <TextInput
+              autoCapitalize="none"
+              value={emailAddress}
+              placeholder="example@critical48.com"
+              onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
+              style={styles.textInput}
+            />
+          </View>
+          <View>
+            <Text style={styles.inputHeading}>Password</Text>
+            <TextInput
+              value={password}
+              placeholder="*****"
+              secureTextEntry={true}
+              onChangeText={(password) => setPassword(password)}
+              style={styles.textInput}
+            />
+          </View>
+          <TouchableOpacity onPress={onSignInPress} style={styles.button}>
+            <Text style={styles.buttonText}>Sign in</Text>
+          </TouchableOpacity>
+          <View
             style={{
-              width: 100,
-              height: 100,
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginBottom: 40,
+              marginTop: 30,
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
-          />
-          <Text style={styles.heading}>Sign in</Text>
-          <Text style={styles.inputHeading}>Email address</Text>
-          <TextInput
-            autoCapitalize="none"
-            value={emailAddress}
-            placeholder="example@critical48.com"
-            onChangeText={(emailAddress) => setEmailAddress(emailAddress)}
-            style={styles.textInput}
-          />
-        </View>
-
-        <View>
-          <Text style={styles.inputHeading}>Password</Text>
-          <TextInput
-            value={password}
-            placeholder="*****"
-            secureTextEntry={true}
-            onChangeText={(password) => setPassword(password)}
-            style={styles.textInput}
-          />
-        </View>
-
-        <TouchableOpacity onPress={onSignInPress} style={styles.button}>
-          <Text style={styles.buttonText}>Sign in</Text>
-        </TouchableOpacity>
-<<<<<<< HEAD
-        <View
-          style={{
-            marginTop: 30,
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <Text style={{ color: "#9A9A9A", fontSize: 14 }}>
-            Do not have an account?
-          </Text>
-          <Text
-            style={{ color: "#A3303B", fontWeight: "600" }}
-            onPress={() => Linking.openURL("/signin?type=create")}
           >
-            Create account
+            <Text style={{ color: "#9A9A9A", fontSize: 14 }}>
+              Do not have an account?
+            </Text>
+            <Text
+              style={{ color: "#A3303B", fontWeight: "600" }}
+              onPress={() => router.push("/signin?type=create")}
+            >
+              Create account
+            </Text>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#A3303B" />
+          <Text style={{ fontSize: 16, color: "#9A9A9A", marginTop: 20 }}>
+            Signing you in...
           </Text>
         </View>
-=======
-      <View style={{flexDirection: 'row', justifyContent: 'space-between',marginTop: 40}}>
-        <Text style={{color: '#9A9A9A'}}>Don't have an account?</Text>
-        <Text style={styles.inputHeading} onPress={() => router.push('signin?account=create')}>Create account</Text>
-      </View>
->>>>>>> 0f1f0a9fff9c40d4445b160553881f0d519d4fce
-      </View>
+      )}
     </KeyboardAvoidingView>
   );
 }
@@ -124,6 +113,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 20,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   heading: {
     fontSize: Colors.headerSize,

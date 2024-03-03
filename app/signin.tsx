@@ -9,18 +9,15 @@ const Signin = () => {
   const { sessionId, isSignedIn } = useAuth();
   const params = useLocalSearchParams();
   const { type } = params;
-  console.log(isSignedIn);
   return (
     <SafeAreaView style={styles.container}>
-      {/* <SignedIn>
+      <SignedIn>
         <Text>You are Signed in</Text>
-      </SignedIn> */}
-      {/* <SignedOut> */}
-      {/* <Text>Here now</Text> */}
-      {type == "create" ? <SignUpScreen /> : <SignInScreen />}
-      {/* </SignedOut> */}
+      </SignedIn>
+      <SignedOut>
+        {type == "create" ? <SignUpScreen /> : <SignInScreen />}
+      </SignedOut>
     </SafeAreaView>
-    // <Text>You are Signed in</Text>
   );
 };
 const styles = StyleSheet.create({

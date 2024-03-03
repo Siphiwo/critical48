@@ -32,7 +32,7 @@ const Page = () => {
       </Text>
       <Link href={"/signin?type=create"} replace asChild>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Create Acccount</Text>
+          <Text style={styles.buttonText}>Get started</Text>
         </TouchableOpacity>
       </Link>
     </View>
